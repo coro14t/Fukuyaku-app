@@ -41,8 +41,8 @@ export default function FarmPage() {
 
   return (
     <div className="p-6 max-w-xl mx-auto text-center">
-      <Link href="/" className="text-blue-600 underline block mb-4">
-        ← ホームに戻る
+      <Link href="/fukuyaku" className="text-blue-600 underline block mb-4">
+        ← 服薬アプリホームに戻る
       </Link>
 
       <h1 className="text-2xl font-bold mb-4">あなたの牧場</h1>

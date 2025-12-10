@@ -63,8 +63,8 @@ export default function AddMedicinePage() {
     <div className="p-6 max-w-xl mx-auto">
 
       {/* ▼ ホームへ戻るリンク追加 ▼ */}
-      <Link href="/" className="inline-block mb-4 text-blue-600 underline">
-        ← ホームに戻る
+      <Link href="/fukuyaku" className="inline-block mb-4 text-blue-600 underline">
+        ← 服薬アプリホームに戻る
       </Link>
 
       <h1 className="text-2xl font-bold mb-4">薬を登録</h1>
