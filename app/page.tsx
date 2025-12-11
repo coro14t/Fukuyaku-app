@@ -47,12 +47,14 @@ export default function Home() {
             ▶ ブログを見る
           </Link>
 
-          {/* アプリ一覧 */}
+          {/* Xリンク */}
           <Link
-            href="/apps"
-            className="bg-purple-500 hover:bg-purple-600 text-white text-center py-4 rounded-lg shadow"
+            href="https://x.com/@CORO43003864"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-black hover:bg-gray-800 text-white text-center py-4 rounded-lg shadow"
           >
-            ▶ アプリ一覧を見る
+            ▶ X（Twitter）を見る
           </Link>
 
         </div>
