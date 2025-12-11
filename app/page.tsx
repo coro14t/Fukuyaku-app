@@ -12,8 +12,8 @@ export default function Home() {
         <Image
           src="/header.png"
           alt="Header"
-          width={1600}   // 画像の元比率に近い数字（このままでOK）
-          height={400}
+          fill
+          style={{ objectFit: "contain", objectPosition: "center" }}
           className="object-cover rounded-b-lg shadow"
         />
       </div>
