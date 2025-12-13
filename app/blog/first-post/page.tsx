@@ -1,11 +1,17 @@
-"use client";
-
 import Link from "next/link";
+
+// ← ここで日付を定義
+const publishedDate = "2025-12-12";
 
 export default function FirstPost() {
   return (
     <main className="p-6 max-w-2xl mx-auto space-y-6">
       <h1 className="text-3xl font-bold">サイトの紹介</h1>
+
+      {/* 日付表示 */}
+      <p className="text-sm text-gray-500">
+        公開日：{publishedDate}
+      </p>
 
       <p className="leading-relaxed text-gray-700">
         これは俺emini Works の最初の記事です。<br />
