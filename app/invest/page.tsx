@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,12 +24,28 @@ ChartJS.register(
 );
 
 export default function InvestPage() {
+  const [amount, setAmount] = useState("");
+  const [dataPoints, setDataPoints] = useState<number[]>([1000000]);
+  const [labels, setLabels] = useState<string[]>(["開始"]);
+
+  const addData = () => {
+    if (!amount) return;
+
+    const newValue = Number(amount);
+    const updatedData = [...dataPoints, newValue];
+    const updatedLabels = [...labels, `${labels.length}回目`];
+
+    setDataPoints(updatedData);
+    setLabels(updatedLabels);
+    setAmount("");
+  };
+
   const data = {
-    labels: ["1月", "2月", "3月", "4月", "5月"],
+    labels: labels,
     datasets: [
       {
         label: "資産推移",
-        data: [1000000, 1100000, 1050000, 1200000, 1300000],
+        data: dataPoints,
         borderColor: "rgb(75, 192, 192)",
         tension: 0.3,
       },
@@ -36,8 +53,29 @@ export default function InvestPage() {
   };
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>投資成績</h1>
+    <div style={{ padding: "40px", maxWidth: "600px" }}>
+      <h1>投資成績ビュー</h1>
+
+      <div style={{ marginBottom: "20px" }}>
+        <input
+          type="number"
+          placeholder="現在の資産額を入力"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          style={{ padding: "8px", width: "70%" }}
+        />
+        <button
+          onClick={addData}
+          style={{
+            padding: "8px 12px",
+            marginLeft: "10px",
+            cursor: "pointer",
+          }}
+        >
+          追加
+        </button>
+      </div>
+
       <Line data={data} />
     </div>
   );
