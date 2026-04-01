@@ -196,11 +196,11 @@ export default function EnvelopePage() {
           line-height: 2;
         }
 
-        /* 縦中横 */
+        /* 🔥 修正済み縦中横（回転なし） */
         .tcy {
           writing-mode: horizontal-tb;
           display: inline-block;
-          transform: rotate(90deg);
+          text-orientation: mixed;
           font-size: 0.9em;
         }
 
