@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "俺emini Works",
+  title: "oremini Works",
   description: "個人開発アプリとブログのサイト",
 };
 
