@@ -2,74 +2,193 @@
 
 import { useState } from "react";
 
+type Person = {
+  name: string;
+  postal: string;
+  address: string;
+  company: string;
+};
+
 export default function EnvelopePage() {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [postal, setPostal] = useState("");
+  const [people, setPeople] = useState<Person[]>([]);
+  const [selected, setSelected] = useState<Person | null>(null);
+  const [title, setTitle] = useState("様");
+
+  const parseCSV = (text: string) => {
+    const rows = text.split("\n").slice(1);
+
+    const data = rows
+      .map((row) => {
+        const [name, postal, address, company] = row.split(",");
+        if (!name) return null;
+
+        return {
+          name: name.trim(),
+          postal: postal?.trim() || "",
+          address: address?.trim() || "",
+          company: company?.trim() || "",
+        };
+      })
+      .filter(Boolean) as Person[];
+
+    setPeople(data);
+  };
+
+  const handleCSV = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const text = event.target?.result as string;
+
+      if (text.includes("�")) {
+        const reader2 = new FileReader();
+        reader2.onload = (e2) => {
+          parseCSV(e2.target?.result as string);
+        };
+        reader2.readAsText(file, "Shift-JIS");
+      } else {
+        parseCSV(text);
+      }
+    };
+
+    reader.readAsText(file);
+  };
 
   const handlePrint = () => {
     window.print();
   };
 
+  const positions = [53, 46, 39, 32, 25, 18, 11];
+
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>封筒印刷アプリ</h1>
+    <div style={{ padding: "20px" }}>
+      <div className="no-print">
+        <h1>封筒印刷（企業対応版）</h1>
 
-      {/* 入力フォーム */}
-      <div style={{ marginBottom: "20px" }}>
-        <input
-          placeholder="名前"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={{ display: "block", marginBottom: "10px", padding: "8px", width: "300px" }}
-        />
-        <input
-          placeholder="郵便番号"
-          value={postal}
-          onChange={(e) => setPostal(e.target.value)}
-          style={{ display: "block", marginBottom: "10px", padding: "8px", width: "300px" }}
-        />
-        <input
-          placeholder="住所"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          style={{ display: "block", marginBottom: "10px", padding: "8px", width: "300px" }}
-        />
+        <input type="file" accept=".csv" onChange={handleCSV} />
 
-        <button onClick={handlePrint} style={{ padding: "10px 20px" }}>
+        <div style={{ marginTop: "20px" }}>
+          {people.map((p, i) => (
+            <div
+              key={i}
+              onClick={() => setSelected(p)}
+              style={{
+                cursor: "pointer",
+                padding: "6px",
+                borderBottom: "1px solid #ccc",
+              }}
+            >
+              {p.name}（{p.company}）
+            </div>
+          ))}
+        </div>
+
+        <select
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          style={{ marginTop: "10px", padding: "5px" }}
+        >
+          <option value="様">様</option>
+          <option value="御中">御中</option>
+          <option value="先生">先生</option>
+        </select>
+
+        <button onClick={handlePrint} style={{ marginTop: "20px" }}>
           印刷
         </button>
       </div>
 
-      {/* プレビュー */}
-      <div
-        style={{
-          width: "600px",
-          height: "300px",
-          border: "1px solid black",
-          padding: "20px",
-          position: "relative",
-        }}
-      >
-        <div style={{ position: "absolute", top: "40px", left: "40px" }}>
-          〒{postal}
-        </div>
+      {selected && (
+        <div className="envelope">
+          {/* 郵便番号 */}
+          {selected.postal
+            .replace("-", "")
+            .split("")
+            .map((num, i) => (
+              <span
+                key={i}
+                style={{
+                  position: "absolute",
+                  top: "12mm",
+                  right: `${positions[i]}mm`,
+                  width: "6mm",
+                  textAlign: "center",
+                  fontSize: "14pt",
+                }}
+              >
+                {num}
+              </span>
+            ))}
 
-        <div style={{ position: "absolute", top: "100px", left: "40px" }}>
-          {address}
-        </div>
+          {/* 住所（右側） */}
+          <div className="address">{selected.address}</div>
 
-        <div
-          style={{
-            position: "absolute",
-            bottom: "40px",
-            right: "40px",
-            fontSize: "24px",
-          }}
-        >
-          {name} 様
+          {/* 会社名（住所の左） */}
+          <div className="company">{selected.company}</div>
+
+          {/* 名前 */}
+          <div className="name">
+            {selected.name} {title}
+          </div>
         </div>
-      </div>
+      )}
+
+      <style jsx global>{`
+        .envelope {
+          width: 120mm;
+          height: 235mm;
+          border: 1px solid black;
+          position: relative;
+          margin-top: 20px;
+          background: white;
+        }
+
+        .address {
+          position: absolute;
+          top: 35mm;
+          right: 15mm; /* ← 右寄せ */
+          writing-mode: vertical-rl;
+          text-orientation: upright;
+          font-size: 14pt;
+          line-height: 1.8;
+        }
+
+        .company {
+          position: absolute;
+          top: 35mm;
+          right: 30mm; /* ← 住所の左に配置 */
+          writing-mode: vertical-rl;
+          text-orientation: upright;
+          font-size: 14pt;
+          line-height: 1.8;
+        }
+
+        .name {
+          position: absolute;
+          top: 80mm;
+          right: 50%;
+          transform: translateX(50%);
+          writing-mode: vertical-rl;
+          text-orientation: upright;
+          font-size: 22pt;
+          font-weight: bold;
+          line-height: 2;
+        }
+
+        @media print {
+          .no-print {
+            display: none;
+          }
+
+          .envelope {
+            border: none;
+            transform: translate(-3mm, -8mm);
+          }
+        }
+      `}</style>
     </div>
   );
 }
