@@ -14,6 +14,17 @@ export default function EnvelopePage() {
   const [selected, setSelected] = useState<Person | null>(null);
   const [title, setTitle] = useState("様");
 
+  // 住所フォーマット（縦中横＋縦ハイフン）
+  const formatAddress = (text: string) => {
+    if (!text) return "";
+
+    return text
+      // 2桁数字を縦中横
+      .replace(/(\d{2})/g, '<span class="tcy">$1</span>')
+      // ハイフンを縦用記号に
+      .replace(/-/g, "︱");
+  };
+
   const parseCSV = (text: string) => {
     const rows = text.split("\n").slice(1);
 
@@ -61,12 +72,13 @@ export default function EnvelopePage() {
     window.print();
   };
 
+  // 郵便番号位置（右からmm）
   const positions = [53, 46, 39, 32, 25, 18, 11];
 
   return (
     <div style={{ padding: "20px" }}>
       <div className="no-print">
-        <h1>封筒印刷（企業対応版）</h1>
+        <h1>封筒印刷（完成版）</h1>
 
         <input type="file" accept=".csv" onChange={handleCSV} />
 
@@ -123,10 +135,16 @@ export default function EnvelopePage() {
               </span>
             ))}
 
-          {/* 住所（右側） */}
-          <div className="address">{selected.address}</div>
+          {/* 住所 */}
+          <div className="address">
+            <span
+              dangerouslySetInnerHTML={{
+                __html: formatAddress(selected.address),
+              }}
+            />
+          </div>
 
-          {/* 会社名（住所の左） */}
+          {/* 会社名 */}
           <div className="company">{selected.company}</div>
 
           {/* 名前 */}
@@ -149,7 +167,7 @@ export default function EnvelopePage() {
         .address {
           position: absolute;
           top: 35mm;
-          right: 15mm; /* ← 右寄せ */
+          right: 15mm;
           writing-mode: vertical-rl;
           text-orientation: upright;
           font-size: 14pt;
@@ -159,7 +177,7 @@ export default function EnvelopePage() {
         .company {
           position: absolute;
           top: 35mm;
-          right: 30mm; /* ← 住所の左に配置 */
+          right: 30mm;
           writing-mode: vertical-rl;
           text-orientation: upright;
           font-size: 14pt;
@@ -176,6 +194,14 @@ export default function EnvelopePage() {
           font-size: 22pt;
           font-weight: bold;
           line-height: 2;
+        }
+
+        /* 縦中横 */
+        .tcy {
+          writing-mode: horizontal-tb;
+          display: inline-block;
+          transform: rotate(90deg);
+          font-size: 0.9em;
         }
 
         @media print {
