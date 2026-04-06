@@ -7,6 +7,7 @@ type Person = {
   postal: string;
   address: string;
   company: string;
+  memo: string;
 };
 
 export default function EnvelopePage() {
@@ -14,14 +15,12 @@ export default function EnvelopePage() {
   const [selected, setSelected] = useState<Person | null>(null);
   const [title, setTitle] = useState("様");
 
-  // 住所フォーマット（縦中横＋縦ハイフン）
+  // 縦中横＋縦ハイフン
   const formatAddress = (text: string) => {
     if (!text) return "";
 
     return text
-      // 2桁数字を縦中横
       .replace(/(\d{2})/g, '<span class="tcy">$1</span>')
-      // ハイフンを縦用記号に
       .replace(/-/g, "︱");
   };
 
@@ -30,7 +29,7 @@ export default function EnvelopePage() {
 
     const data = rows
       .map((row) => {
-        const [name, postal, address, company] = row.split(",");
+        const [name, postal, address, company, memo] = row.split(",");
         if (!name) return null;
 
         return {
@@ -38,6 +37,7 @@ export default function EnvelopePage() {
           postal: postal?.trim() || "",
           address: address?.trim() || "",
           company: company?.trim() || "",
+          memo: memo?.trim() || "",
         };
       })
       .filter(Boolean) as Person[];
@@ -72,11 +72,11 @@ export default function EnvelopePage() {
     window.print();
   };
 
-  // 郵便番号位置（右からmm）
   const positions = [53, 46, 39, 32, 25, 18, 11];
 
   return (
     <div style={{ padding: "20px" }}>
+      {/* UI */}
       <div className="no-print">
         <h1>封筒印刷（完成版）</h1>
 
@@ -94,6 +94,11 @@ export default function EnvelopePage() {
               }}
             >
               {p.name}（{p.company}）
+              {p.memo && (
+                <span style={{ color: "red", marginLeft: "10px" }}>
+                  [{p.memo}]
+                </span>
+              )}
             </div>
           ))}
         </div>
@@ -113,6 +118,7 @@ export default function EnvelopePage() {
         </button>
       </div>
 
+      {/* 封筒 */}
       {selected && (
         <div className="envelope">
           {/* 郵便番号 */}
@@ -144,7 +150,7 @@ export default function EnvelopePage() {
             />
           </div>
 
-          {/* 会社名 */}
+          {/* 会社 */}
           <div className="company">{selected.company}</div>
 
           {/* 名前 */}
@@ -196,7 +202,6 @@ export default function EnvelopePage() {
           line-height: 2;
         }
 
-        /* 🔥 修正済み縦中横（回転なし） */
         .tcy {
           writing-mode: horizontal-tb;
           display: inline-block;
