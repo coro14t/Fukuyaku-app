@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 type Person = {
   name: string;
@@ -14,11 +14,10 @@ export default function EnvelopePage() {
   const [people, setPeople] = useState<Person[]>([]);
   const [selected, setSelected] = useState<Person | null>(null);
   const [title, setTitle] = useState("様");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 縦中横＋縦ハイフン
   const formatAddress = (text: string) => {
     if (!text) return "";
-
     return text
       .replace(/(\d{2})/g, '<span class="tcy">$1</span>')
       .replace(/-/g, "︱");
@@ -76,11 +75,24 @@ export default function EnvelopePage() {
 
   return (
     <div style={{ padding: "20px" }}>
-      {/* UI */}
       <div className="no-print">
         <h1>封筒印刷（完成版）</h1>
 
-        <input type="file" accept=".csv" onChange={handleCSV} />
+        {/* 🔥 ファイル選択ボタン */}
+        <input
+          type="file"
+          accept=".csv"
+          ref={fileInputRef}
+          onChange={handleCSV}
+          style={{ display: "none" }}
+        />
+
+        <button
+          onClick={() => fileInputRef.current?.click()}
+          className="btn"
+        >
+          CSVファイルを選択
+        </button>
 
         <div style={{ marginTop: "20px" }}>
           {people.map((p, i) => (
@@ -113,15 +125,14 @@ export default function EnvelopePage() {
           <option value="先生">先生</option>
         </select>
 
-        <button onClick={handlePrint} style={{ marginTop: "20px" }}>
-          印刷
+        {/* 🔥 印刷ボタン */}
+        <button onClick={handlePrint} className="btn print">
+          印刷する
         </button>
       </div>
 
-      {/* 封筒 */}
       {selected && (
         <div className="envelope">
-          {/* 郵便番号 */}
           {selected.postal
             .replace("-", "")
             .split("")
@@ -141,7 +152,6 @@ export default function EnvelopePage() {
               </span>
             ))}
 
-          {/* 住所 */}
           <div className="address">
             <span
               dangerouslySetInnerHTML={{
@@ -150,10 +160,8 @@ export default function EnvelopePage() {
             />
           </div>
 
-          {/* 会社 */}
           <div className="company">{selected.company}</div>
 
-          {/* 名前 */}
           <div className="name">
             {selected.name} {title}
           </div>
@@ -161,6 +169,32 @@ export default function EnvelopePage() {
       )}
 
       <style jsx global>{`
+        .btn {
+          display: inline-block;
+          padding: 10px 18px;
+          margin-top: 15px;
+          border: none;
+          border-radius: 8px;
+          background: #2563eb;
+          color: white;
+          font-size: 14px;
+          cursor: pointer;
+          transition: 0.2s;
+        }
+
+        .btn:hover {
+          background: #1e40af;
+        }
+
+        .btn.print {
+          background: #16a34a;
+          margin-left: 10px;
+        }
+
+        .btn.print:hover {
+          background: #166534;
+        }
+
         .envelope {
           width: 120mm;
           height: 235mm;
