@@ -39,6 +39,14 @@ export default function Home() {
             ▶ 服薬アプリを開く
           </Link>
 
+          {/* 封筒印刷アプリ */}
+          <Link
+            href="/envelope"
+            className="bg-orange-500 hover:bg-orange-600 text-white text-center py-4 rounded-lg shadow"
+          >
+            ▶ 封筒印刷アプリを開く
+          </Link>
+
           {/* ブログ */}
           <Link
             href="/blog"
