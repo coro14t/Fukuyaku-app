@@ -78,7 +78,6 @@ export default function EnvelopePage() {
       <div className="no-print">
         <h1>封筒印刷（完成版）</h1>
 
-        {/* 🔥 ファイル選択ボタン */}
         <input
           type="file"
           accept=".csv"
@@ -125,7 +124,6 @@ export default function EnvelopePage() {
           <option value="先生">先生</option>
         </select>
 
-        {/* 🔥 印刷ボタン */}
         <button onClick={handlePrint} className="btn print">
           印刷する
         </button>
@@ -152,6 +150,7 @@ export default function EnvelopePage() {
               </span>
             ))}
 
+          {/* 住所 */}
           <div className="address">
             <span
               dangerouslySetInnerHTML={{
@@ -160,7 +159,14 @@ export default function EnvelopePage() {
             />
           </div>
 
-          <div className="company">{selected.company}</div>
+          {/* 会社（←ここ修正ポイント） */}
+          <div className="company">
+            <span
+              dangerouslySetInnerHTML={{
+                __html: formatAddress(selected.company),
+              }}
+            />
+          </div>
 
           <div className="name">
             {selected.name} {title}
