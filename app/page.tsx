@@ -47,6 +47,14 @@ export default function Home() {
             ▶ 封筒印刷アプリを開く
           </Link>
 
+          {/* 在宅書類作成 */}
+          <Link
+            href="/homecare-docs"
+            className="bg-purple-500 hover:bg-purple-600 text-white text-center py-4 rounded-lg shadow"
+          >
+            ▶ 在宅書類作成
+          </Link>
+
           {/* ブログ */}
           <Link
             href="/blog"
