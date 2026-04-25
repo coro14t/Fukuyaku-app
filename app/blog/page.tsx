@@ -16,10 +16,17 @@ export default function BlogHome() {
       <div className="space-y-2">
         <Link
           href="/blog/first-post"
-          className="text-blue-600 hover:underline"
+          className="block text-blue-600 hover:underline"
         >
           サイトの紹介 →
         </Link>
+
+        <Link
+          href="/blog/envelope-post"
+          className="block text-blue-600 hover:underline"
+          >
+            封筒印刷ツールを作った話 →
+            </Link>
       </div>
 
       <div className="text-center mt-8">
