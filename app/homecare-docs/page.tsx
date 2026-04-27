@@ -107,8 +107,8 @@ return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
 
 const getTitle=(type:string)=>{
 return type==="介護保険"
-? "居宅療養管理指導指示依頼書"
-: "在宅患者訪問薬剤管理指導指示依頼書";
+? "居宅療養管理指導指示書"
+: "在宅患者訪問薬剤管理指導指示書";
 };
 
 const box=(v:boolean)=>

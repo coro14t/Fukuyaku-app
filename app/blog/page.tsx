@@ -26,7 +26,14 @@ export default function BlogHome() {
           className="block text-blue-600 hover:underline"
           >
             封筒印刷ツールを作った話 →
-            </Link>
+        </Link>
+
+        <Link
+          href="/blog/homecare-post"
+          className="block text-blue-600 hover:underline"
+          >
+            書類作成ツールを作った話 →
+        </Link>
       </div>
 
       <div className="text-center mt-8">
