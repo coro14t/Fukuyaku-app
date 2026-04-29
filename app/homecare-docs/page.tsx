@@ -10,6 +10,12 @@ new Date().toISOString().split("T")[0];
 const [documentType,setDocumentType]=
 useState("医療保険");
 
+const [docMode,setDocMode]=
+useState("指示依頼書");
+
+const [sendType,setSendType]=
+useState("郵送");
+
 const [createdDate,setCreatedDate]=
 useState(today);
 
@@ -98,7 +104,26 @@ const [doctor,setDoctor]=useState("");
 const [lastVisit,setLastVisit]=useState("");
 const [nextVisit,setNextVisit]=useState("");
 const [note,setNote]=useState("");
+const [sendPages,setSendPages]=useState("5");
+const [messageMode,setMessageMode]=useState("定型文");
+const defaultCoverText = `拝啓、時下ますますご清栄のこととお喜び申し上げます。
 
+下記書類を送付致しますので、ご確認よろしくお願いいたします。
+
+記
+
+送付書類
+・薬学的管理指導計画書
+・居宅療養管理指導報告書
+
+ご不明な点などございましたら、お知らせください。
+今後ともよろしくお願いいたします。
+
+以上`;
+
+const [freeMessage,setFreeMessage]=useState(defaultCoverText);
+const [sendDocs,setSendDocs]=useState(`薬学的管理指導計画書
+居宅療養管理指導報告書`);
 const formatJapaneseDate=(dateStr:string)=>{
 if(!dateStr) return "____年__月__日";
 const d=new Date(dateStr);
@@ -127,7 +152,19 @@ margin:"0 auto"
 <h1>在宅書類作成ツール</h1>
 
 <div className="row">
-書類種別：
+文書種類：
+<select
+value={docMode}
+onChange={(e)=>setDocMode(e.target.value)}
+>
+<option>指示依頼書</option>
+<option>送付状</option>
+</select>
+</div>
+
+{docMode==="指示依頼書" && (
+<div className="row">
+保険種別：
 <select
 value={documentType}
 onChange={(e)=>setDocumentType(e.target.value)}
@@ -136,6 +173,20 @@ onChange={(e)=>setDocumentType(e.target.value)}
 <option value="介護保険">介護保険</option>
 </select>
 </div>
+)}
+
+{docMode==="送付状" && (
+<div className="row">
+送付方法：
+<select
+value={sendType}
+onChange={(e)=>setSendType(e.target.value)}
+>
+<option>郵送</option>
+<option>FAX</option>
+</select>
+</div>
+)}
 
 <div className="row">
 病院・施設名：
@@ -208,6 +259,8 @@ onChange={(e)=>setPharmacyStaff(e.target.value)}
 />
 </div>
 
+{docMode==="指示依頼書" && (
+<>
 <h3>患者情報</h3>
 
 <div className="row">
@@ -384,6 +437,33 @@ style={{width:"100%",height:"100px"}}
 
 <br/>
 
+</>
+)}
+
+{docMode==="送付状" && (
+<>
+<div className="row">
+送付枚数：
+<input
+value={sendPages}
+onChange={(e)=>setSendPages(e.target.value)}
+style={{width:"80px"}}
+/>
+枚（送付状を含む）
+</div>
+
+<div className="row">
+本文編集：
+</div>
+
+<textarea
+value={freeMessage}
+onChange={(e)=>setFreeMessage(e.target.value)}
+style={{width:"100%",height:"260px"}}
+/>
+</>
+)}
+
 <button
 className="btn print"
 onClick={()=>window.print()}
@@ -393,21 +473,24 @@ onClick={()=>window.print()}
 
 </div>
 
-
 <div className="print-area">
 
 <h2 className="doc-title">
-{getTitle(documentType)}
+{docMode==="送付状"
+ ? "送付状"
+ : getTitle(documentType)}
 </h2>
 
 <div className="top-grid">
 
 <div className="left-block">
+<div>
 {recipient||"________________"}
-{" "}
-{personName||"________________"}
-{" "}
-{honorific}
+</div>
+
+<div>
+{personName||"________________"} {honorific}
+</div>
 </div>
 
 <div className="right-block">
@@ -420,11 +503,15 @@ onClick={()=>window.print()}
 
 </div>
 
+{docMode==="指示依頼書" && (
 <div className="guide">
 　下記の患者様に在宅訪問指導の必要性が認められました。ご自宅を訪問し、服薬状況と薬剤管理状況の確認、服薬指導、副作用の確認、服薬によるADLへの影響、調剤方法の検討、介護者の負担軽減・生活状況の把握等をさせていただきたいと考えておりますので、ご検討ください。
 尚、ご本人(家族)には、本サービスの内容および費用につき説明・同意を得ております。
 </div>
+)}
 
+{docMode==="指示依頼書" && (
+<>
 <table className="form-table">
 <tbody>
 
@@ -522,8 +609,24 @@ onClick={()=>window.print()}
 ※太枠内に記入し、返送をお願いいたします。
 </div>
 
+</>
+)}
+
 </div>
 
+{docMode==="送付状" && (
+<>
+<div className="fax-count-box">
+送付枚数：{sendPages} 枚（送付状を含む）
+</div>
+
+<div className="cover-box">
+<pre>
+{freeMessage}
+</pre>
+</div>
+</>
+)}
 
 <style jsx global>{`
 
@@ -640,6 +743,66 @@ margin-top:8px;
 font-family:serif;
 font-size:12px;
 page-break-inside:avoid;
+}
+
+.fax-title-box{
+border:3px solid #000;
+height:60px;
+display:flex;
+justify-content:center;
+align-items:center;
+margin-bottom:20px;
+}
+
+.fax-title{
+font-size:30px;
+font-family:serif;
+font-weight:bold;
+}
+
+.fax-count-box{
+border:1px solid #000;
+padding:8px 12px;
+
+width:280px;
+
+margin-left:auto;   /* 右寄せ */
+margin-right:2.5%;  /* cover-box右端に合わせる */
+margin-bottom:20px;
+
+box-sizing:border-box;
+}
+
+.fax-header-table{
+width:100%;
+border-collapse:collapse;
+margin-bottom:30px;
+}
+
+.fax-header-table th,
+.fax-header-table td{
+border:1px solid #000;
+padding:10px;
+}
+
+.cover-box{
+border:2px solid #000;
+width:95%;
+margin:14px auto;
+min-height:500px;   /* 指示依頼書に近い高さ */
+padding:18px 20px;  /* 左右余白縮小 */
+line-height:1.8;
+font-family:serif;
+
+page-break-inside:avoid;
+break-inside:avoid;
+box-sizing:border-box;
+}
+
+.cover-box pre{
+white-space:pre-wrap;
+font-family:serif;
+margin:0;
 }
 
 @media print{
