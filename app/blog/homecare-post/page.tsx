@@ -24,7 +24,7 @@ export default function FirstPost() {
       </p>
 
       <p className="leading-relaxed text-gray-700">
-        気ままに他にも作るかもしれません。
+        依頼書と送付状を切り替えれば一緒に作ることができて便利かも？
       </p>
 
       <Link
