@@ -484,13 +484,18 @@ onClick={()=>window.print()}
 <div className="top-grid">
 
 <div className="left-block">
+
 <div>
 {recipient||"________________"}
+{honorific==="御中" && " 御中"}
 </div>
 
+{honorific!=="御中" && (
 <div>
 {personName||"________________"} {honorific}
 </div>
+)}
+
 </div>
 
 <div className="right-block">
