@@ -34,6 +34,13 @@ export default function BlogHome() {
           >
             書類作成ツールを作った話 →
         </Link>
+
+        <Link
+          href="/blog/refill-post"
+          className="block text-blue-600 hover:underline"
+          >
+            リフィル案内文を作った話 →
+        </Link>
       </div>
 
       <div className="text-center mt-8">

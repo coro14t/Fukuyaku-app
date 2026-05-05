@@ -55,6 +55,14 @@ export default function Home() {
             ▶ 在宅書類作成
           </Link>
 
+          {/* リフィル案内 */}
+<Link
+  href="/refill-guide"
+  className="bg-teal-500 hover:bg-teal-600 text-white text-center py-4 rounded-lg shadow"
+>
+  ▶ リフィル処方せん案内
+</Link>
+
           {/* ブログ */}
           <Link
             href="/blog"
