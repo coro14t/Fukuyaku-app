@@ -73,6 +73,8 @@ export default function EnvelopePage() {
 
   const positions = [53, 46, 39, 32, 25, 18, 11];
 
+  const [printAlign, setPrintAlign] = useState("left");
+
   return (
     <div style={{ padding: "20px" }}>
       <div className="no-print">
@@ -124,13 +126,25 @@ export default function EnvelopePage() {
           <option value="先生">先生</option>
         </select>
 
+        <div style={{ marginTop: "10px" }}>
+  印刷位置：
+  <select
+    value={printAlign}
+    onChange={(e) => setPrintAlign(e.target.value)}
+    style={{ marginLeft: "10px", padding: "5px" }}
+  >
+    <option value="left">左寄せ（通常）</option>
+    <option value="center">中央寄せ</option>
+  </select>
+</div>
+
         <button onClick={handlePrint} className="btn print">
           印刷する
         </button>
       </div>
 
       {selected && (
-        <div className="envelope">
+        <div className={`envelope ${printAlign}`}>
           {selected.postal
             .replace("-", "")
             .split("")
@@ -210,6 +224,13 @@ export default function EnvelopePage() {
           background: white;
         }
 
+        /* ←ここに追加 */
+.envelope.center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
         .address {
           position: absolute;
           top: 35mm;
@@ -250,14 +271,30 @@ export default function EnvelopePage() {
         }
 
         @media print {
-          .no-print {
-            display: none;
-          }
 
-          .envelope {
-            border: none;
-            transform: translate(-3mm, -8mm);
-          }
+  .no-print {
+    display: none;
+  }
+
+  .envelope {
+    border: none;
+    position: absolute;
+    top: 0;
+  }
+
+  /* 左寄せ（今まで通り） */
+  .envelope.left {
+    transform: translate(-3mm, -8mm);
+  }
+
+  /* 中央寄せ */
+  .envelope.center {
+    left: 50%;
+    transform: translate(-50%, -8mm);
+  }
+
+}
+
         }
       `}</style>
     </div>
