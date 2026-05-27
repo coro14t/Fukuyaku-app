@@ -153,7 +153,7 @@ export default function EnvelopePage() {
                 key={i}
                 style={{
                   position: "absolute",
-                  top: "12mm",
+                  top: "16mm",
                   right: `${positions[i]}mm`,
                   width: "6mm",
                   textAlign: "center",
