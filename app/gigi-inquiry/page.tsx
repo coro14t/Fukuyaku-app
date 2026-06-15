@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Cropper from "react-easy-crop";
 
 export default function GigiInquiryPage() {
   const [department, setDepartment] = useState("");
@@ -21,7 +22,22 @@ export default function GigiInquiryPage() {
   const [hour, setHour] = useState("");
   const [minute, setMinute] = useState("");
   const [beforeImage, setBeforeImage] = useState<string | null>(null);
-  const handleImage = (
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+const [zoom, setZoom] = useState(1);
+
+const [croppedAreaPixels, setCroppedAreaPixels] =
+  useState<any>(null);
+
+  const onCropComplete = (
+  croppedArea: any,
+  croppedAreaPixels: any
+) => {
+  setCroppedAreaPixels(croppedAreaPixels);
+};
+const showCropInfo = () => {
+  console.log(croppedAreaPixels);
+};
+const handleImage = (
   e: React.ChangeEvent<HTMLInputElement>
 ) => {
   const file = e.target.files?.[0];
@@ -120,6 +136,47 @@ export default function GigiInquiryPage() {
   capture="environment"
   onChange={handleImage}
 />
+
+{beforeImage && (
+  <div
+    style={{
+      position: "relative",
+      height: "400px",
+      marginTop: "10px",
+    }}
+  >
+    <Cropper
+      image={beforeImage}
+      crop={crop}
+      zoom={zoom}
+      aspect={4 / 3}
+      onCropChange={setCrop}
+      onZoomChange={setZoom}
+      onCropComplete={onCropComplete}
+    />
+  </div>
+)}
+
+{beforeImage && (
+  <input
+    type="range"
+    min={1}
+    max={3}
+    step={0.1}
+    value={zoom}
+    onChange={(e) =>
+      setZoom(Number(e.target.value))
+    }
+  />
+)}
+
+<button
+  type="button"
+  onClick={() => console.log(croppedAreaPixels)}
+>
+  切り抜き座標確認
+</button>
+
         <textarea
           value={beforeText}
           onChange={(e) => setBeforeText(e.target.value)}
