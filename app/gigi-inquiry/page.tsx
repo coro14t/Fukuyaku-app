@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Cropper from "react-easy-crop";
+import { getCroppedImg } from "@/lib/cropImage";
 
 export default function GigiInquiryPage() {
   const [department, setDepartment] = useState("");
@@ -34,8 +35,17 @@ const [croppedAreaPixels, setCroppedAreaPixels] =
 ) => {
   setCroppedAreaPixels(croppedAreaPixels);
 };
-const showCropInfo = () => {
-  console.log(croppedAreaPixels);
+const [croppedImage, setCroppedImage] =
+  useState<string | null>(null);
+const showCropInfo = async () => {
+  if (!beforeImage || !croppedAreaPixels) return;
+
+  const cropped = await getCroppedImg(
+    beforeImage,
+    croppedAreaPixels
+  );
+
+  setCroppedImage(cropped);
 };
 const handleImage = (
   e: React.ChangeEvent<HTMLInputElement>
@@ -296,18 +306,27 @@ const handleImage = (
             <tr style={{ height: "250px" }}>
               
   <td colSpan={2}>
-  {beforeImage ? (
-    <img
-      src={beforeImage}
-      alt=""
-      style={{
-        maxWidth: "100%",
-        maxHeight: "220px",
-      }}
-    />
-  ) : (
-    beforeText
-  )}
+  {croppedImage ? (
+  <img
+    src={croppedImage}
+    alt=""
+    style={{
+      maxWidth: "100%",
+      maxHeight: "220px",
+    }}
+  />
+) : beforeImage ? (
+  <img
+    src={beforeImage}
+    alt=""
+    style={{
+      maxWidth: "100%",
+      maxHeight: "220px",
+    }}
+  />
+) : (
+  beforeText
+)}
 </td>
 
               <td colSpan={3}>{afterText}</td>
