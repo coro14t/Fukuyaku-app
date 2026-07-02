@@ -531,6 +531,16 @@ textarea:focus {
   }
 }
 
+.form-table {
+  page-break-after: avoid;
+  page-break-inside: avoid;
+}
+
+.stamp-table {
+  page-break-before: avoid;
+  page-break-inside: avoid;
+}
+
         .stamp-table {
   width: 100%;
   border-collapse: collapse;
