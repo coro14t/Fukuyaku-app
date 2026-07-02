@@ -504,16 +504,32 @@ textarea:focus {
   vertical-align: middle;
 }
 
-        @media print {
-          .no-print {
-            display: none;
-          }
+        @page {
+  size: A4 portrait;
+  margin: 10mm;
+}
 
-          .print-area {
-            border: none;
-            margin: 0;
-          }
-        }
+@media print {
+  .no-print {
+    display: none;
+  }
+
+  .print-area {
+    width: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .form-table,
+  .stamp-table {
+    width: 100%;
+  }
+
+  body {
+    margin: 0;
+  }
+}
 
         .stamp-table {
   width: 100%;
@@ -547,7 +563,7 @@ textarea:focus {
   select,
   textarea,
   button {
-    width: 100% !important;
+    width: 100%;
     box-sizing: border-box;
     margin: 6px 0;
   }
