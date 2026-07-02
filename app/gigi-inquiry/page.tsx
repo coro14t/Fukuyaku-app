@@ -547,7 +547,7 @@ textarea:focus {
   select,
   textarea,
   button {
-    width: 100%;
+    width: 100% !important;
     box-sizing: border-box;
     margin: 6px 0;
   }
