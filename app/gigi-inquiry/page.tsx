@@ -361,7 +361,7 @@ const handleImage = (
   </td>
 </tr>
 
-            <tr style={{ height: "430px" }}>
+            <tr style={{ height: "400px" }}>
               
   <td colSpan={3}>
   {croppedImage ? (
@@ -538,6 +538,10 @@ textarea:focus {
 
 .stamp-table {
   page-break-before: avoid;
+  page-break-inside: avoid;
+}
+
+.print-area {
   page-break-inside: avoid;
 }
 
