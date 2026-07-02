@@ -536,6 +536,31 @@ textarea:focus {
   width: calc(33.3% - 65px);
 }
 
+@media (max-width: 768px) {
+
+  .row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 6px 0;
+  }
+
+  .print-area {
+    overflow-x: auto;
+  }
+
+  .form-table {
+    min-width: 900px;
+  }
+}
+
       `}</style>
     </div>
   );
