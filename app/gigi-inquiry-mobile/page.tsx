@@ -363,7 +363,7 @@ const handleImage = (
   </td>
 </tr>
 
-            <tr style={{ height: "280px" }}>
+            <tr style={{ height: "300px" }}>
               
   <td colSpan={3}>
   {croppedImage ? (
@@ -372,7 +372,7 @@ const handleImage = (
     alt=""
     style={{
       maxWidth: "100%",
-      maxHeight: "260px",
+      maxHeight: "280px",
     }}
   />
 ) : beforeImage ? (
