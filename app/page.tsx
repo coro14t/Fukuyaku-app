@@ -55,6 +55,14 @@ export default function Home() {
             ▶ 在宅書類作成
           </Link>
 
+{/* 疑義照会変更票 */}
+          <Link
+  href="/gigi-inquiry"
+  className="bg-red-500 hover:bg-red-600 text-white text-center py-4 rounded-lg shadow"
+>
+  ▶ 疑義照会変更票
+</Link>
+
           {/* リフィル案内 */}
 <Link
   href="/refill-guide"
