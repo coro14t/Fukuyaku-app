@@ -414,30 +414,17 @@ const handleImage = (
   </td>
 </tr>
 
-          </tbody>
-        </table>
+<tr style={{ height: "60px" }}>
+  <td className="label-cell">薬剤部<br />検認</td>
+  <td></td>
 
-        <table className="stamp-table">
-          <tbody>
-            <tr style={{ height: "90px" }}>
-              <td className="stamp-label">
-                薬剤部<br />
-                検　認
-              </td>
-              <td className="stamp-space"></td>
+  <td className="label-cell">医事<br />入力</td>
+  <td></td>
 
-              <td className="stamp-label">
-                医事<br />
-                入力
-              </td>
-              <td className="stamp-space"></td>
+  <td className="label-cell">医事<br />検収</td>
+  <td></td>
+</tr>
 
-              <td className="stamp-label">
-                医事<br />
-                検収
-              </td>
-              <td className="stamp-space"></td>
-            </tr>
           </tbody>
         </table>
 
@@ -529,7 +516,7 @@ textarea:focus {
   }
 
   .form-table,
-  .stamp-table {
+   {
     width: 100%;
     table-layout: fixed;
   }
@@ -540,23 +527,8 @@ textarea:focus {
   page-break-inside: avoid;
 }
 
-.stamp-table {
-  page-break-before: avoid;
-  page-break-inside: avoid;
-}
-
 .print-area {
   page-break-inside: avoid;
-}
-
-        .stamp-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: -1px;
-}
-
-.stamp-table td {
-  border: 1px solid black;
 }
 
 .stamp-label {
