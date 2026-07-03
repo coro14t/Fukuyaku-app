@@ -254,7 +254,7 @@ const handleImage = (
 
         <h2 style={{
     textAlign: "center",
-    fontSize: "28px",}}>
+    fontSize: "22px",}}>
           疑義照会変更票
         </h2>
 
@@ -293,7 +293,7 @@ const handleImage = (
     　 No.
   </td>
 
-  <td rowSpan={2} style={{ textAlign: "center",fontSize: "28px", }}>
+  <td rowSpan={2} style={{ textAlign: "center",fontSize: "22px", }}>
     4
   </td>
 </tr>
@@ -362,7 +362,7 @@ const handleImage = (
   </td>
 </tr>
 
-            <tr style={{ height: "430px" }}>
+            <tr style={{ height: "340px" }}>
               
   <td colSpan={3}>
   {croppedImage ? (
@@ -371,7 +371,7 @@ const handleImage = (
     alt=""
     style={{
       maxWidth: "100%",
-      maxHeight: "400px",
+      maxHeight: "320px",
     }}
   />
 ) : beforeImage ? (
@@ -505,9 +505,9 @@ textarea:focus {
   vertical-align: middle;
 }
 
-        @page {
+@page {
   size: A4 portrait;
-  margin: 10mm;
+  margin: 5mm;
 }
 
 @media print {
@@ -515,20 +515,23 @@ textarea:focus {
     display: none;
   }
 
-  .print-area {
-    width: 100%;
-    border: none;
+  html,
+  body {
     margin: 0;
     padding: 0;
+  }
+
+  .print-area {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
   }
 
   .form-table,
   .stamp-table {
     width: 100%;
-  }
-
-  body {
-    margin: 0;
+    table-layout: fixed;
   }
 }
 
@@ -567,29 +570,30 @@ textarea:focus {
   width: calc(33.3% - 65px);
 }
 
-@media (max-width: 768px) {
+.row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
 
-  .row {
-    display: flex;
-    flex-direction: column;
-  }
+input,
+select,
+textarea,
+button {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 6px 0;
+}
 
-  input,
-  select,
-  textarea,
-  button {
-    width: 100%;
-    box-sizing: border-box;
-    margin: 6px 0;
-  }
+.print-area {
+  margin-top: 20px;
+  background: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
 
-  .print-area {
-    overflow-x: auto;
-  }
-
-  .form-table {
-    min-width: 900px;
-  }
+.form-table td {
+  font-size: 14px;
 }
 
       `}</style>
