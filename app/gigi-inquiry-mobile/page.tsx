@@ -399,7 +399,7 @@ const handleImage = (
   : gigiType}</td>
             </tr>
 
-           <tr>
+           <tr style={{ height: "50px" }}>
   <td className="label-cell">保険薬局名</td>
 
   <td colSpan={2}>
