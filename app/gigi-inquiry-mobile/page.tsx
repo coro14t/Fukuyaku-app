@@ -254,7 +254,8 @@ const handleImage = (
 
         <h2 style={{
     textAlign: "center",
-    fontSize: "22px",}}>
+    fontSize: "20px",
+    margin: "8px 0",}}>
           疑義照会変更票
         </h2>
 
@@ -362,7 +363,7 @@ const handleImage = (
   </td>
 </tr>
 
-            <tr style={{ height: "340px" }}>
+            <tr style={{ height: "280px" }}>
               
   <td colSpan={3}>
   {croppedImage ? (
@@ -371,7 +372,7 @@ const handleImage = (
     alt=""
     style={{
       maxWidth: "100%",
-      maxHeight: "320px",
+      maxHeight: "260px",
     }}
   />
 ) : beforeImage ? (
@@ -483,7 +484,7 @@ textarea:focus {
 
         .form-table td {
           border: 1px solid black;
-          padding: 8px;
+          padding: 4px;
           vertical-align: middle;
         }
 
