@@ -368,6 +368,7 @@ const handleImage = (
   <td colSpan={3}
   style={{ verticalAlign: "top",whiteSpace: "pre-wrap", }}>
   {croppedImage ? (
+    <>
   <img
     src={croppedImage}
     alt=""
@@ -376,7 +377,12 @@ const handleImage = (
       maxHeight: "280px",
     }}
   />
+  <div style={{ marginTop: "8px" }}>
+        {beforeText}
+      </div>
+    </>
 ) : beforeImage ? (
+  <>
   <img
     src={beforeImage}
     alt=""
@@ -385,6 +391,10 @@ const handleImage = (
       maxHeight: "220px",
     }}
   />
+  <div style={{ marginTop: "8px" }}>
+        {beforeText}
+      </div>
+    </>
 ) : (
   beforeText
 )}
