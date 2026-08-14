@@ -366,7 +366,7 @@ const handleImage = (
             <tr style={{ height: "300px" }}>
               
   <td colSpan={3}
-  style={{ verticalAlign: "top" }}>
+  style={{ verticalAlign: "top",whiteSpace: "pre-wrap", }}>
   {croppedImage ? (
   <img
     src={croppedImage}
@@ -391,7 +391,7 @@ const handleImage = (
 </td>
 
               <td colSpan={3}
-              style={{ verticalAlign: "top" }}
+              style={{ verticalAlign: "top",whiteSpace: "pre-wrap", }}
               >{afterText}</td>
             </tr>
 
