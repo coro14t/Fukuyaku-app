@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Cropper from "react-easy-crop";
+import type { Area, Point } from "react-easy-crop";
 import { getCroppedImg } from "@/lib/cropImage";
 
 export default function GigiInquiryPage() {
@@ -28,11 +29,11 @@ export default function GigiInquiryPage() {
 const [zoom, setZoom] = useState(1);
 
 const [croppedAreaPixels, setCroppedAreaPixels] =
-  useState<any>(null);
+  useState<Area | null>(null);
 
-  const onCropComplete = (
-  croppedArea: any,
-  croppedAreaPixels: any
+const onCropComplete = (
+  _croppedArea: Area,
+  croppedAreaPixels: Area
 ) => {
   setCroppedAreaPixels(croppedAreaPixels);
 };
