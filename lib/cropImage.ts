@@ -1,3 +1,6 @@
+
+import type { Area } from "react-easy-crop";
+
 export const createImage = (url: string): Promise<HTMLImageElement> =>
   new Promise((resolve, reject) => {
     const image = new Image();
@@ -8,8 +11,8 @@ export const createImage = (url: string): Promise<HTMLImageElement> =>
 
 export async function getCroppedImg(
   imageSrc: string,
-  pixelCrop: any
-) {
+  pixelCrop: Area
+): Promise<string> {
   const image = await createImage(imageSrc);
 
   const canvas = document.createElement("canvas");
@@ -31,18 +34,18 @@ export async function getCroppedImg(
   );
 
   return new Promise<string>((resolve, reject) => {
-  canvas.toBlob(
-    (blob) => {
-      if (!blob) {
-        reject(new Error("Blobの作成に失敗しました"));
-        return;
-      }
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          reject(new Error("Blobの作成に失敗しました"));
+          return;
+        }
 
-      const url = URL.createObjectURL(blob);
-      resolve(url);
-    },
-    "image/jpeg",
-    0.9
-  );
-});
+        const url = URL.createObjectURL(blob);
+        resolve(url);
+      },
+      "image/jpeg",
+      0.9
+    );
+  });
 }
